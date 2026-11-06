@@ -20,6 +20,7 @@ function App() {
           <div>
             <p className="eyebrow">Мои задачи</p>
             <h1 id="page-title">To-Do List</h1>
+            <p className="subtitle">Небольшие шаги складываются в большие результаты.</p>
           </div>
           <span className="progress" aria-label={`Выполнено ${completedCount} из ${todos.length}`}>
             {completedCount}/{todos.length}
