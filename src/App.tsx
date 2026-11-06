@@ -1,45 +1,14 @@
 import { useState, type FormEvent } from 'react'
+import { useTodos } from './hooks/useTodos'
 import './App.css'
 
-type Todo = {
-  id: number
-  title: string
-  completed: boolean
-}
-
-const initialTodos: Todo[] = [
-  { id: 1, title: 'Подготовить прототип интерфейса', completed: true },
-  { id: 2, title: 'Проверить сценарий добавления задач', completed: false },
-  { id: 3, title: 'Поделиться результатом с командой', completed: false },
-]
-
 function App() {
-  const [todos, setTodos] = useState(initialTodos)
+  const { todos, addTodo, toggleTodo, removeTodo } = useTodos()
   const [newTodo, setNewTodo] = useState('')
 
-  const addTodo = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const title = newTodo.trim()
-
-    if (!title) return
-
-    setTodos((currentTodos) => [
-      ...currentTodos,
-      { id: Date.now(), title, completed: false },
-    ])
-    setNewTodo('')
-  }
-
-  const toggleTodo = (id: number) => {
-    setTodos((currentTodos) =>
-      currentTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    )
-  }
-
-  const removeTodo = (id: number) => {
-    setTodos((currentTodos) => currentTodos.filter((todo) => todo.id !== id))
+    if (addTodo(newTodo)) setNewTodo('')
   }
 
   const completedCount = todos.filter((todo) => todo.completed).length
@@ -57,7 +26,7 @@ function App() {
           </span>
         </div>
 
-        <form className="todo-form" onSubmit={addTodo}>
+        <form className="todo-form" onSubmit={handleSubmit}>
           <label className="sr-only" htmlFor="new-todo">
             Новая задача
           </label>
